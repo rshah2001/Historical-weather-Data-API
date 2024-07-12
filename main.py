@@ -3,12 +3,14 @@ import pandas as pd
 
 app = Flask(__name__)
 
+station = pd.read_csv("data_small/stations.txt", skiprows=17)
+station = station[["STAID","STANAME                                 "]]
 
 @app.route("/")
 def home():
     # Created a directory called templates and the function below will automatically look for the name
     # mentioned in the () inside the templates folder
-    return render_template("home.html")
+    return render_template("home.html", data=station.to_html())
 
 
 @app.route("/api/v1/<station>/<date>")
@@ -25,4 +27,4 @@ def about(station, date):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=5001)
